@@ -19,6 +19,10 @@ namespace HusVaskeIdeBackend.Models.TodoItem
             return _context.TodoItems.ToList();
         }
 
+        public IEnumerable<TodoItem> GetAllItemsForAssignee(string assignee)
+        {
+            return _context.TodoItems.Where(obj => obj.Assignee == assignee).ToList();
+        }
         public void AddTodoItem(TodoItem todoItem)
         {
             _context.TodoItems.Add(todoItem);

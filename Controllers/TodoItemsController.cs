@@ -26,10 +26,20 @@ public class TodoItemsController : ControllerBase
     }
 
 
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("api/todoitems/{assignee}")]
+    [Consumes("application/json")]
+    public IEnumerable<TodoItem> GetAllItemsForAssignee(string assignee)
+    {
+        return _repository.GetAllItemsForAssignee(assignee);
+    }
+
     [HttpPost]
     [Route("api/todoitem")]
     [Consumes("application/json")]
-    public void PostTodoItem(TodoItem todoItem)
+    public void PostTodoItem([FromBody] TodoItem todoItem)
     {
         _repository.AddTodoItem(todoItem);
     }
