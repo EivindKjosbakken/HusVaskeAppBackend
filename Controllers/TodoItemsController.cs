@@ -1,35 +1,36 @@
-﻿using HusVaskeIdeBackend.Data;
-using HusVaskeIdeBackend.Models.TodoItem;
-using HusVaskeIdeBackend.Models.User;
+﻿using HusVaskeIdeBackend.Models.TodoItem;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Any;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-[ApiController]
+
 public class TodoItemsController : ControllerBase
 {
-    private readonly ITodoRepository _todoRepository;
+    private TodoRepository _repository = new TodoRepository();
 
-    public TodoItemsController(ITodoRepository todoRepository)
-    {
-        _todoRepository = todoRepository;
-    }
+
+
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("api/todoitems")]
 
-    public IActionResult List()
+    public IEnumerable<TodoItem> GetAllItems()
     {
-        return Ok(_todoRepository.All);
+        return _repository.GetAllTodoItems();
     }
 
 
     [HttpPost]
     [Route("api/todoitem")]
     [Consumes("application/json")]
-    public TodoItem PostItem(TodoItem item)
+    public void PostTodoItem(TodoItem todoItem)
     {
-
-        return _todoRepository.Insert(item);
+        _repository.AddTodoItem(todoItem);
     }
 }

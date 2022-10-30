@@ -1,4 +1,4 @@
-using HusVaskeIdeBackend.Data;
+using HusVaskeIdeBackend.Models.TodoItem;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace HusVaskeIdeBackend
 {
@@ -27,8 +28,12 @@ namespace HusVaskeIdeBackend
             services.AddRazorPages();
             services.AddMvcCore().AddApiExplorer();
             services.AddSwaggerGen(c => c.SwaggerDoc(name:"v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "My API", Version = "v1" }));
-            services.AddSingleton<ITodoRepository, TodoRepository>();
             services.AddControllers();
+
+
+            //services.AddDbContext<DatabaseContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly(typeof(DatabaseContext).Assembly.FullName)));
+            //services.AddSingleton<ITodoRepository, TodoRepository>();
 
             services.AddCors();
 
