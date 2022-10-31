@@ -5,16 +5,21 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections;
-
-
+using HusVaskeIdeBackend.Data;
 
 namespace HusVaskeIdeBackend.Models.TodoItem
 {
-    public class TodoRepository 
+    public class TodoRepository : ITodoRepository
     {
-        private DatabaseContext _context = new DatabaseContext();
+        //private DatabaseContext _context = new DatabaseContext();
+        private AppDbContext _context;
 
-        public IEnumerable<TodoItem> GetAllTodoItems()
+        public TodoRepository(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        public virtual IEnumerable<TodoItem> GetAllTodoItems()
         {
             return _context.TodoItems.ToList();
         }

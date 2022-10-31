@@ -14,32 +14,33 @@ namespace HusVaskeIdeBackend.Controllers
 
 {
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UserController : ControllerBase
     {
 
-        private readonly ILogger<UsersController> _logger;
+        private readonly ILogger<UserController> _logger;
 
-        static readonly IUserRepository repository = new UserRepository();
+        private IUserRepository _repository;
 
-        public UsersController(ILogger<UsersController> logger)
+        public UserController(ILogger<UserController> logger, IUserRepository repository)
         {
             _logger = logger;
+            _repository = repository;
         }
 
         [HttpGet]
         [Route("api/users")]
-        public IEnumerable<UserModel> GetAllUsers()
+        public IEnumerable<UserItem> GetAllUsers()
         {
-            return repository.GetAll();
+            return _repository.GetAll();
         }
 
         [HttpPost]
         [Route("api/user")]
         [Consumes("application/json")]
-        public UserModel PostUser(UserModel item)
+        public void PostUser(UserItem item)
         {
 
-            return repository.Add(item);
+            Console.WriteLine("funker ikke nå");
         }
 
 

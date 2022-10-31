@@ -6,8 +6,8 @@ namespace HusVaskeIdeBackend.Models.TodoItem
 {
     public interface ITodoRepository
     {
-        IEnumerable<TodoItem> GetAllTodoItems();
-        IEnumerable<TodoItem> GetAllItemsForAssignee();
-        void AddTodoItem(TodoItem todoItem);
+        public IEnumerable<TodoItem> GetAllTodoItems();
+        public IEnumerable<TodoItem> GetAllItemsForAssignee(string assignee);
+        public void AddTodoItem(TodoItem todoItem);
     }
 }

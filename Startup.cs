@@ -10,6 +10,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using HusVaskeIdeBackend.Models.AuthData;
+using HusVaskeIdeBackend.Models.User;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Converters;
+using HusVaskeIdeBackend.Data;
 
 namespace HusVaskeIdeBackend
 {
@@ -30,12 +41,51 @@ namespace HusVaskeIdeBackend
             services.AddSwaggerGen(c => c.SwaggerDoc(name:"v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "My API", Version = "v1" }));
             services.AddControllers();
 
+            
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //services.AddDbContext<DatabaseContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly(typeof(DatabaseContext).Assembly.FullName)));
-            //services.AddSingleton<ITodoRepository, TodoRepository>();
+
+            services.AddScoped<ITodoRepository, TodoRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
 
             services.AddCors();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(Configuration.GetValue<string>("JWTSecretKey"))
+                        )
+                    };
+                });
+
+
+
+
+            services.AddSingleton(
+                    new AuthService(
+                        Configuration.GetValue<string>("JWTSecretKey"),
+                        Configuration.GetValue<int>("JWTLifespan")
+                    )
+                );
+                services
+                    .AddMvc()
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                    .AddNewtonsoftJson(options =>
+                    {
+                        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                        options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                    });
+
 
         }
 
@@ -68,6 +118,7 @@ namespace HusVaskeIdeBackend
                 .AllowCredentials()); // allow credentials
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
