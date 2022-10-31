@@ -11,35 +11,35 @@ namespace HusVaskeIdeBackend.Models.AuthData
 {
     public class AuthController : ControllerBase
     {
-        AuthService authService;
-        IUserRepository userRepository;
-        public AuthController(AuthService authService, IUserRepository userRepository)
+        private AuthService _authService;
+        private IUserRepository _repository;
+        public AuthController(AuthService authService, IUserRepository repository)
         {
-            this.authService = authService;
-            this.userRepository = userRepository;
+            _authService = authService;
+            _repository = repository;
         }
 
         [HttpPost]
         [Route("api/login")]
         [Consumes("application/json")]
-        public ActionResult<AuthData> PostLogin([FromBody] UserInDto model)
+        public ActionResult<AuthData> PostLogin([FromBody] UserItem model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = userRepository.GetSingle(u => u.Email == model.Email);
+            var user = _repository.GetSingle(u => u.Email == model.Email);
 
             if (user == null)
             {
                 return BadRequest(new { email = "no user with this email" });
             }
 
-            var passwordValid = authService.VerifyPassword(model.Password, user.Password);
+            var passwordValid = _authService.VerifyPassword(model.Password, user.Password);
             if (!passwordValid)
             {
                 return BadRequest(new { password = "invalid password" });
             }
 
-            return authService.GetAuthData(user.Id.ToString());
+            return _authService.GetAuthData(user.Id.ToString());
         }
 
         [HttpPost]
@@ -49,9 +49,9 @@ namespace HusVaskeIdeBackend.Models.AuthData
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var emailUniq = userRepository.isEmailUniq(model.Email);
+            var emailUniq = _repository.isEmailUniq(model.Email);
             if (!emailUniq) return BadRequest(new { email = "user with this email already exists" });
-            var usernameUniq = userRepository.IsUsernameUniq(model.Username);
+            var usernameUniq = _repository.IsUsernameUniq(model.Username);
             if (!usernameUniq) return BadRequest(new { username = "user with this email already exists" });
 
             var id = Guid.NewGuid().ToString();
@@ -60,13 +60,15 @@ namespace HusVaskeIdeBackend.Models.AuthData
                 Id = id,
                 Username = model.Username,
                 Email = model.Email,
-                Password = authService.HashPassword(model.Password)
+                Password = _authService.HashPassword(model.Password)
             };
-            userRepository.Add(user);
-            userRepository.Commit();
+            _repository.Add(user);
+            _repository.Commit();
 
-            return authService.GetAuthData(id);
+            return _authService.GetAuthData(id);
         }
+
+
 
     }
 }

@@ -40,7 +40,7 @@ namespace HusVaskeIdeBackend.Models.AuthData
             {
                 Token = token,
                 TokenExpirationTime = ((DateTimeOffset)expirationTime).ToUnixTimeSeconds(),
-                Id = Int32.Parse(id)
+                Id = id
             };
         }
 

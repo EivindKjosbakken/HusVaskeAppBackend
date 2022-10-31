@@ -34,15 +34,14 @@ namespace HusVaskeIdeBackend.Controllers
             return _repository.GetAll();
         }
 
-        [HttpPost]
-        [Route("api/user")]
-        [Consumes("application/json")]
-        public void PostUser(UserItem item)
+        [HttpGet]
+        [Route("api/getusername/{id}")]
+        public string GetUsernameFromId(string id)
         {
+            UserItem user = _repository.GetSingle(id);
+            return user.Username;
 
-            Console.WriteLine("funker ikke nå");
         }
-
 
     }
 }
