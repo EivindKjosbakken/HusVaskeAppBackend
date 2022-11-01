@@ -26,11 +26,11 @@ namespace HusVaskeIdeBackend.Models.AuthData
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = _repository.GetSingle(u => u.Email == model.Email);
+            var user = _repository.GetSingle(u => u.Username == model.Username);
 
             if (user == null)
             {
-                return BadRequest(new { email = "no user with this email" });
+                return BadRequest(new { email = "no user with this username" });
             }
 
             var passwordValid = _authService.VerifyPassword(model.Password, user.Password);
@@ -39,7 +39,7 @@ namespace HusVaskeIdeBackend.Models.AuthData
                 return BadRequest(new { password = "invalid password" });
             }
 
-            return _authService.GetAuthData(user.Id.ToString());
+            return _authService.GetAuthData(user.Id.ToString(), model.Username);
         }
 
         [HttpPost]
@@ -65,7 +65,7 @@ namespace HusVaskeIdeBackend.Models.AuthData
             _repository.Add(user);
             _repository.Commit();
 
-            return _authService.GetAuthData(id);
+            return _authService.GetAuthData(id, model.Username);
         }
 
 
