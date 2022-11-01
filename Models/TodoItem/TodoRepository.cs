@@ -28,9 +28,34 @@ namespace HusVaskeIdeBackend.Models.TodoItem
         {
             return _context.TodoItems.Where(obj => obj.Assignee == assignee).ToList();
         }
+
+        public IEnumerable<TodoItem> GetAllUnFinishedItemsForAssignee(string assignee)
+        {
+            return _context.TodoItems.Where(obj => (obj.Assignee == assignee && obj.Finished == false)).ToList();
+        }
+
+        public IEnumerable<TodoItem> GetAllFinishedItemsForAssignee(string assignee)
+        {
+            return _context.TodoItems.Where(obj => (obj.Assignee == assignee && obj.Finished == true)).ToList();
+        }
+
         public void AddTodoItem(TodoItem todoItem)
         {
             _context.TodoItems.Add(todoItem);
+            _context.SaveChanges();
+        }
+
+        public void FinishTodoItem(int ID)
+        {
+            TodoItem itemToUpdate = _context.TodoItems.FirstOrDefault(obj => obj.ID == ID);
+            itemToUpdate.Finished = true;
+            _context.SaveChanges();
+        }
+
+        public void UnFinishTodoItem(int ID)
+        {
+            TodoItem itemToUpdate = _context.TodoItems.FirstOrDefault(obj => obj.ID == ID);
+            itemToUpdate.Finished = false;
             _context.SaveChanges();
         }
 

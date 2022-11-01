@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HusVaskeIdeBackend.Models.TodoItem
+namespace HusVaskeIdeBackend.Models
+
 {
-    public class TodoItem
+    public class TodoItemInDTO
     {
         [Required]
         public int ID { get; set; }
@@ -10,11 +11,9 @@ namespace HusVaskeIdeBackend.Models.TodoItem
 
         public string? Title { get; set; }
 
-
         public string? Location { get; set; }
 
-        public string Assignee { get; set; }
+        public string? Assignee { get; set; }
 
-        public bool? Finished { get; set; }
     }
 }

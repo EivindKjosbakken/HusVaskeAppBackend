@@ -7,10 +7,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using HusVaskeIdeBackend.Models.User;
 using Microsoft.AspNetCore.Cors;
 
-namespace HusVaskeIdeBackend.Controllers
+namespace HusVaskeIdeBackend.Models.User
 
 {
     [ApiController]

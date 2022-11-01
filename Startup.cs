@@ -21,6 +21,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Converters;
 using HusVaskeIdeBackend.Data;
+using HusVaskeIdeBackend.Models.Group;
 
 namespace HusVaskeIdeBackend
 {
@@ -48,6 +49,8 @@ namespace HusVaskeIdeBackend
 
             services.AddScoped<ITodoRepository, TodoRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IGroupRepository, GroupRepository>();
+
 
 
             services.AddCors();
