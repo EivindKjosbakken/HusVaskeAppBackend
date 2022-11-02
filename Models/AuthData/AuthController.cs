@@ -45,7 +45,7 @@ namespace HusVaskeIdeBackend.Models.AuthData
         [HttpPost]
         [Route("api/register")]
         [Consumes("application/json")]
-        public ActionResult<AuthData> PostRegister([FromBody] UserItem model)
+        public ActionResult<AuthData> PostRegister([FromBody] UserRegisterInDTO model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 

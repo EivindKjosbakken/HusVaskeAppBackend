@@ -7,5 +7,9 @@ namespace HusVaskeIdeBackend.Models.Group
         public IEnumerable<GroupItem> GetAllGroups();
         public void AddUserToGroup(GroupItem group);
         public string GetGroupIDFromGroupName(string groupID);
+
+        public string GetGroupNameFromGroupID(string groupID);
+
+        public IEnumerable<GroupItem> GetAllGroupsUserIsOwnerOf(string userID);
     }
 }

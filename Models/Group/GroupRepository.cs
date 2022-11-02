@@ -21,7 +21,10 @@ namespace HusVaskeIdeBackend.Models.Group
         public IEnumerable<GroupItem> GetAllGroups()
         {
             return _context.Groups.ToList();
-            //return _context.Groups.Where(obj => (obj.GroupID == ID)).ToList();
+        }
+        public IEnumerable<GroupItem> GetAllGroupsUserIsOwnerOf(string userID)
+        {
+            return _context.Groups.Where(obj => (obj.UserID == userID && obj.IsOwner == true)).ToList();
         }
 
         public void AddUserToGroup(GroupItem group)
@@ -30,10 +33,15 @@ namespace HusVaskeIdeBackend.Models.Group
             _context.SaveChanges();
         }
 
+        public string GetGroupNameFromGroupID(string groupID)
+        {
+            var group = _context.Groups.FirstOrDefault(obj => obj.GroupID == groupID);
+            return group.GroupName;
+        }
         public string GetGroupIDFromGroupName(string groupName)
         {
             var group = _context.Groups.FirstOrDefault(obj => obj.GroupName == groupName);
-            return group.GroupName;
+            return group.GroupID;
         }
 
 

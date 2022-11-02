@@ -9,7 +9,7 @@ namespace HusVaskeIdeBackend.Models.Group.InDto
         public string UserEmail { get; set; }
 
         [Required]
-        public string GroupName { get; set; }
+        public string GroupID { get; set; }
         [Required]
         public string Role { get; set; }
 

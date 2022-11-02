@@ -33,7 +33,7 @@ namespace HusVaskeIdeBackend.Data
                 new UserItem { Id = "assndfnq_sa123", Username = "Kjosbakken", Email = "eivind@gmail.com", Password = "ANAKJFNSOA" });
 
             modelBuilder.Entity<GroupItem>().HasData(
-                 new GroupItem { GroupID = "XJSNADSKJDASDNAKSAN", UserID = "KJNSKANSAKJ;HI", GroupName = "Kjosbakken", Role = "Parent" });
+                 new GroupItem { GroupID = "XJSNADSKJDASDNAKSAN", UserID = "KJNSKANSAKJ;HI", GroupName = "Kjosbakken", Role = "Parent", IsOwner = false });
 
         }
     }

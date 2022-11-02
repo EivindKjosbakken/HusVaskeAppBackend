@@ -16,6 +16,8 @@ namespace HusVaskeIdeBackend.Models.Group
         [Required]
         public string Role { get; set; }
 
+        public bool IsOwner { get; set; }
+
 
     }
 }
