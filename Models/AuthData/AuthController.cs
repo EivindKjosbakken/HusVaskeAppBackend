@@ -22,15 +22,15 @@ namespace HusVaskeIdeBackend.Models.AuthData
         [HttpPost]
         [Route("api/login")]
         [Consumes("application/json")]
-        public ActionResult<AuthData> PostLogin([FromBody] UserItem model)
+        public ActionResult<AuthData> PostLogin([FromBody] UserInDto model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = _repository.GetSingle(u => u.Username == model.Username);
+            var user = _repository.GetSingle(u => u.Email == model.Email);
 
             if (user == null)
             {
-                return BadRequest(new { email = "no user with this username" });
+                return BadRequest(new { email = "no user with this email" });
             }
 
             var passwordValid = _authService.VerifyPassword(model.Password, user.Password);
@@ -39,7 +39,7 @@ namespace HusVaskeIdeBackend.Models.AuthData
                 return BadRequest(new { password = "invalid password" });
             }
 
-            return _authService.GetAuthData(user.Id.ToString(), model.Username);
+            return _authService.GetAuthData(user.Id.ToString(), user.Username);
         }
 
         [HttpPost]
@@ -51,8 +51,8 @@ namespace HusVaskeIdeBackend.Models.AuthData
 
             var emailUniq = _repository.isEmailUniq(model.Email);
             if (!emailUniq) return BadRequest(new { email = "user with this email already exists" });
-            var usernameUniq = _repository.IsUsernameUniq(model.Username);
-            if (!usernameUniq) return BadRequest(new { username = "user with this email already exists" });
+            //var usernameUniq = _repository.IsUsernameUniq(model.Username); //want to make it so usernames do not have to be unique
+            //if (!usernameUniq) return BadRequest(new { username = "user with this email already exists" });
 
             var id = Guid.NewGuid().ToString();
             var user = new UserItem

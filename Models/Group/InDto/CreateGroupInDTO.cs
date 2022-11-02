@@ -5,7 +5,7 @@ namespace HusVaskeIdeBackend.Models.Group.InDto
     public class CreateGroupInDTO
     {
         [Required]
-        public int UserID { get; set; }
+        public string UserID { get; set; }
 
 
         [Required]

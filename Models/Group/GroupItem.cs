@@ -6,7 +6,7 @@ namespace HusVaskeIdeBackend.Models.Group
     {
 
         [Key]
-        public int UserID { get; set; }
+        public string UserID { get; set; }
 
         [Required]
         public string GroupID { get; set; }

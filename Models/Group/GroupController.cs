@@ -20,10 +20,13 @@ namespace HusVaskeIdeBackend.Models.Group
         private readonly ILogger<GroupController> _logger;
 
         private IGroupRepository _repository;
-        public GroupController(ILogger<GroupController> logger, IGroupRepository repository)
+
+        private IUserRepository _userRepository;
+        public GroupController(ILogger<GroupController> logger, IGroupRepository repository, IUserRepository userRepository)
         {
             _logger = logger;
             _repository = repository;
+            _userRepository = userRepository;
         }
 
 
@@ -39,30 +42,16 @@ namespace HusVaskeIdeBackend.Models.Group
 
 
         [HttpPost]
-        [Route("api/addusertogroup")]
-        [Consumes("application/json")]
-        public void AddUserToGroup([FromBody] AddUserInDTO addUserInDto)
-        {
-            var groupName = _repository.GetGroupNameFromGroupID(addUserInDto.GroupID);
-            if (groupName == null)
-            {
-                throw new Exception("Error when adding user to group");
-            }
-            GroupItem group = new GroupItem
-            {
-                GroupID = addUserInDto.GroupID,
-                UserID = addUserInDto.UserID,
-                GroupName = groupName,
-                Role = addUserInDto.Role,
-            };
-            _repository.AddUserToGroup(group);
-        }
-
-        [HttpPost]
         [Route("api/creategroup")]
         [Consumes("application/json")]
         public void CreateGroup([FromBody] CreateGroupInDTO createGroupInDto)
         {
+            var user = _userRepository.GetSingle(u => u.Id == createGroupInDto.UserID);
+            if (user == null)
+            {
+                throw new Exception("User must exist");
+            }
+
 
             var groupID = Guid.NewGuid().ToString(); //generate groupId
             GroupItem group = new GroupItem
@@ -71,6 +60,29 @@ namespace HusVaskeIdeBackend.Models.Group
                 UserID = createGroupInDto.UserID,
                 GroupName = createGroupInDto.GroupName,
                 Role = createGroupInDto.Role,
+            };
+            _repository.AddUserToGroup(group);
+        }
+
+        [HttpPost]
+        [Route("api/addusertogroup")]
+        [Consumes("application/json")]
+        public void AddUserToGroup([FromBody] AddUserInDTO addUserInDto)
+        {
+            var groupID = _repository.GetGroupIDFromGroupName(addUserInDto.GroupName);
+
+            var userID = _userRepository.GetUserIDFromEmail(addUserInDto.UserEmail);
+
+            if (groupID == null)
+            {
+                throw new Exception("Error when adding user to group");
+            }
+            GroupItem group = new GroupItem
+            {
+                GroupID = groupID,
+                UserID = userID,
+                GroupName = addUserInDto.GroupName,
+                Role = addUserInDto.Role,
             };
             _repository.AddUserToGroup(group);
         }

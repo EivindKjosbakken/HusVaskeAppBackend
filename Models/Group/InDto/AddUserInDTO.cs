@@ -6,13 +6,14 @@ namespace HusVaskeIdeBackend.Models.Group.InDto
     {
 
         [Required]
-        public int UserID { get; set; }
+        public string UserEmail { get; set; }
 
         [Required]
-        public string GroupID { get; set; }
-
+        public string GroupName { get; set; }
         [Required]
         public string Role { get; set; }
+
+
 
     }
 }

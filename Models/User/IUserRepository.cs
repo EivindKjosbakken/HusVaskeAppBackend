@@ -28,6 +28,8 @@ namespace HusVaskeIdeBackend.Models.User
         void Update(UserItem entity);
         void Delete(UserItem entity);
         void DeleteWhere(Expression<Func<UserItem, bool>> predicate);
+
+        public string GetUserIDFromEmail(string email);
         void Commit();
     }
 }

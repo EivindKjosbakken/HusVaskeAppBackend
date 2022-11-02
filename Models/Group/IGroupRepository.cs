@@ -6,6 +6,6 @@ namespace HusVaskeIdeBackend.Models.Group
     {
         public IEnumerable<GroupItem> GetAllGroups();
         public void AddUserToGroup(GroupItem group);
-        public string GetGroupNameFromGroupID(string groupID);
+        public string GetGroupIDFromGroupName(string groupID);
     }
 }

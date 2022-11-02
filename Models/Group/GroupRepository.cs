@@ -30,11 +30,13 @@ namespace HusVaskeIdeBackend.Models.Group
             _context.SaveChanges();
         }
 
-        public string GetGroupNameFromGroupID(string groupID)
+        public string GetGroupIDFromGroupName(string groupName)
         {
-            var group = _context.Groups.FirstOrDefault(obj => obj.GroupID == groupID);
+            var group = _context.Groups.FirstOrDefault(obj => obj.GroupName == groupName);
             return group.GroupName;
         }
+
+
 
     }
 }
