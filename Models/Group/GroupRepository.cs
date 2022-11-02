@@ -44,6 +44,11 @@ namespace HusVaskeIdeBackend.Models.Group
             return group.GroupID;
         }
 
+        public IEnumerable<GroupItem> GetGroupInstancesFromGroupID(string groupID)
+        {
+            var groupInstances = _context.Groups.Where(obj => obj.GroupID == groupID);
+            return groupInstances;
+        }
 
 
     }

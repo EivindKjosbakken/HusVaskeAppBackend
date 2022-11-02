@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using HusVaskeIdeBackend.Models.Group.InDto;
+using System.Collections.Generic;
 
 namespace HusVaskeIdeBackend.Models.Group
 {
@@ -9,6 +10,8 @@ namespace HusVaskeIdeBackend.Models.Group
         public string GetGroupIDFromGroupName(string groupID);
 
         public string GetGroupNameFromGroupID(string groupID);
+
+        public IEnumerable<GroupItem> GetGroupInstancesFromGroupID(string groupID);
 
         public IEnumerable<GroupItem> GetAllGroupsUserIsOwnerOf(string userID);
     }

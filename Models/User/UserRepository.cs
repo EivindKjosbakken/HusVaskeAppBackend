@@ -106,6 +106,12 @@ namespace HusVaskeIdeBackend.Models.User
             return user.Id;
         }
 
+        public UserItem GetUserFromEmail(string email)
+        {
+            var user = _context.Users.FirstOrDefault(obj => obj.Email == email);
+            return user;
+        }
+
         public virtual void Commit()
         {
             _context.SaveChanges();

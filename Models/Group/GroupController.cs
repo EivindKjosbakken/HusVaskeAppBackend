@@ -77,14 +77,21 @@ namespace HusVaskeIdeBackend.Models.Group
         [HttpPost]
         [Route("api/addusertogroup")]
         [Consumes("application/json")]
-        public void AddUserToGroup([FromBody] AddUserInDTO addUserInDto)
+        public IActionResult AddUserToGroup([FromBody] AddUserInDTO addUserInDto)
         {
-            //var groupID = _repository.GetGroupIDFromGroupName(addUserInDto.GroupName);
-            var groupName = _repository.GetGroupNameFromGroupID(addUserInDto.GroupID);
+
+            var groupItems = _repository.GetGroupInstancesFromGroupID(addUserInDto.GroupID);
 
             var userID = _userRepository.GetUserIDFromEmail(addUserInDto.UserEmail);
 
-            if (addUserInDto.GroupID == null || userID == null || groupName == null)
+            bool userIDInGroup = groupItems.Any(x => x.UserID == userID); //if there is a user with this ID in the group
+
+            if (userIDInGroup && groupItems.First().GroupID == addUserInDto.GroupID) //instance is already in DB
+            {
+                return BadRequest("User already in that group");
+            }
+
+            if (addUserInDto.GroupID == null || userID == null || groupItems.First().GroupName == null)
             {
                 throw new Exception("Group does not exist (when adding user to group) or userID does note exist");
             }
@@ -92,11 +99,12 @@ namespace HusVaskeIdeBackend.Models.Group
             {
                 GroupID = addUserInDto.GroupID,
                 UserID = userID,
-                GroupName = groupName,
+                GroupName = groupItems.First().GroupName,
                 Role = addUserInDto.Role,
                 IsOwner=false, //if you are added to the group you are not the owner
             };
             _repository.AddUserToGroup(group);
+            return Ok(group);
         }
 
 

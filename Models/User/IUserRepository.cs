@@ -30,6 +30,8 @@ namespace HusVaskeIdeBackend.Models.User
         void DeleteWhere(Expression<Func<UserItem, bool>> predicate);
 
         public string GetUserIDFromEmail(string email);
+
+        public UserItem GetUserFromEmail(string email);
         void Commit();
     }
 }
