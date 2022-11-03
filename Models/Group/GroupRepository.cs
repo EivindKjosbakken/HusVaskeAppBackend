@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections;
 using HusVaskeIdeBackend.Data;
+using HusVaskeIdeBackend.Models.User;
 
 namespace HusVaskeIdeBackend.Models.Group
 
@@ -50,6 +51,12 @@ namespace HusVaskeIdeBackend.Models.Group
             return groupInstances;
         }
 
+        public IEnumerable<string> GetAllUserIDsInGroup(string groupID)
+        {
+            var groups = _context.Groups.Where(obj => obj.GroupID == groupID);
+            var userIDs = groups.Select(o => o.UserID).ToList();
+            return userIDs;
+        }
 
     }
 }

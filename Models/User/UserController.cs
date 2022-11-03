@@ -14,7 +14,7 @@ namespace HusVaskeIdeBackend.Models.User
 
 {
     [ApiController]
-    [Authorize]
+    //[Authorize] //TODO fjerna her, husk å bytte tilbake
     public class UserController : ControllerBase
     {
 

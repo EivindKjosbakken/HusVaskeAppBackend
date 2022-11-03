@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace HusVaskeIdeBackend.Models.TodoItem
 {
@@ -7,6 +8,11 @@ namespace HusVaskeIdeBackend.Models.TodoItem
         [Required]
         public int ID { get; set; }
 
+        [Required]
+        public string GroupID { get; set; }
+
+        [Required]
+        public string UserID { get; set; }
 
         public string? Title { get; set; }
 
@@ -15,6 +21,12 @@ namespace HusVaskeIdeBackend.Models.TodoItem
 
         public string Assignee { get; set; }
 
-        public bool? Finished { get; set; }
+        public bool? IsFinished { get; set; }
+
+        public DateTime TimeCreated { get; set; }
+
+        public DateTime? TimeFinished { get; set; }
+
+
     }
 }

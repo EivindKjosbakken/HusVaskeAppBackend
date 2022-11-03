@@ -31,12 +31,12 @@ namespace HusVaskeIdeBackend.Models.TodoItem
 
         public IEnumerable<TodoItem> GetAllUnFinishedItemsForAssignee(string assignee)
         {
-            return _context.TodoItems.Where(obj => (obj.Assignee == assignee && obj.Finished == false)).ToList();
+            return _context.TodoItems.Where(obj => (obj.Assignee == assignee && obj.IsFinished == false)).ToList();
         }
 
         public IEnumerable<TodoItem> GetAllFinishedItemsForAssignee(string assignee)
         {
-            return _context.TodoItems.Where(obj => (obj.Assignee == assignee && obj.Finished == true)).ToList();
+            return _context.TodoItems.Where(obj => (obj.Assignee == assignee && obj.IsFinished == true)).ToList();
         }
 
         public void AddTodoItem(TodoItem todoItem)
@@ -48,14 +48,14 @@ namespace HusVaskeIdeBackend.Models.TodoItem
         public void FinishTodoItem(int ID)
         {
             TodoItem itemToUpdate = _context.TodoItems.FirstOrDefault(obj => obj.ID == ID);
-            itemToUpdate.Finished = true;
+            itemToUpdate.IsFinished = true;
             _context.SaveChanges();
         }
 
         public void UnFinishTodoItem(int ID)
         {
             TodoItem itemToUpdate = _context.TodoItems.FirstOrDefault(obj => obj.ID == ID);
-            itemToUpdate.Finished = false;
+            itemToUpdate.IsFinished = false;
             _context.SaveChanges();
         }
 

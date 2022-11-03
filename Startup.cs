@@ -112,7 +112,7 @@ namespace HusVaskeIdeBackend
 
             app.UseStaticFiles();
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
 
             app.UseRouting();
             app.UseCors(x => x
@@ -124,11 +124,12 @@ namespace HusVaskeIdeBackend
 
             app.UseAuthorization(); 
 
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
+
             });
         }
     }

@@ -16,7 +16,7 @@ namespace HusVaskeIdeBackend.Models.Group
 {
 
     [ApiController]
-    [Authorize]
+    //[Authorize] //TODO fjerna her, husk å bytte tilbake
     public class GroupController : ControllerBase
     {
         private readonly ILogger<GroupController> _logger;
@@ -49,6 +49,23 @@ namespace HusVaskeIdeBackend.Models.Group
         public IEnumerable<GroupItem> GetAllGroupsUserIsOwnerOf(string userID)
         {
             return _repository.GetAllGroupsUserIsOwnerOf(userID);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Route("api/usersingroup/{groupID}")]
+        public IEnumerable<UserItem> GetAllUsersInGroup(string groupID)
+        {
+            var userIDs =  _repository.GetAllUserIDsInGroup(groupID); //get id's of users, then get the UserItems from those IDs
+            List<UserItem> userItems = new List<UserItem>();
+
+            foreach (var userID in userIDs) //for each id, get the userobject
+            {
+                UserItem userItem = _userRepository.GetSingle(userID);
+                userItems.Add(userItem);
+            }
+            return userItems;
         }
 
 

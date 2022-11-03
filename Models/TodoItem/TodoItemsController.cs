@@ -8,12 +8,13 @@ using Microsoft.OpenApi.Any;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 
 namespace HusVaskeIdeBackend.Models.TodoItem
 {
-    [Authorize]
+    //[Authorize] //TODO fjerna her, husk å bytte tilbake
     [ApiController]
     public class TodoItemsController : ControllerBase
     {
@@ -79,7 +80,10 @@ namespace HusVaskeIdeBackend.Models.TodoItem
                 Title = todoItemDto.Title,
                 Location = todoItemDto.Location,
                 Assignee = todoItemDto.Assignee,
-                Finished = false,
+                IsFinished = false,
+                TimeCreated = DateTime.UtcNow,
+                GroupID = todoItemDto.GroupID,
+                UserID = todoItemDto.UserID
             };
             _repository.AddTodoItem(todoItem);
         }
