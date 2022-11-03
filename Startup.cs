@@ -53,6 +53,7 @@ namespace HusVaskeIdeBackend
 
 
 
+
             services.AddCors();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -66,23 +67,21 @@ namespace HusVaskeIdeBackend
                         ValidateIssuerSigningKey = true,
 
                         IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(Configuration.GetValue<string>("JWTSecretKey"))
+                            Encoding.UTF8.GetBytes(Configuration.GetSection("JWT")["JWTSecretKey"])
                         )
                     };
                 });
 
+            services.AddScoped<IAuthService, AuthService>();
 
 
-
-            services.AddSingleton(
+            services.AddSingleton<IAuthService>(
                     new AuthService(
-                        Configuration.GetValue<string>("JWTSecretKey"),
-                        Configuration.GetValue<int>("JWTLifespan")
-                    )
+                        Configuration)
                 );
                 services
                     .AddMvc()
-                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                     .AddNewtonsoftJson(options =>
                     {
                         options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -102,7 +101,7 @@ namespace HusVaskeIdeBackend
             }
             else
             {
-                app.UseHttpsRedirection();
+                //app.UseHttpsRedirection(); //TODO fjerna for nå pga jeg følger en tutorial
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
@@ -113,6 +112,8 @@ namespace HusVaskeIdeBackend
 
             app.UseStaticFiles();
 
+            app.UseAuthentication();
+
             app.UseRouting();
             app.UseCors(x => x
                 .AllowAnyMethod()
@@ -120,8 +121,9 @@ namespace HusVaskeIdeBackend
                 .SetIsOriginAllowed(origin => true) // allow any origin
                 .AllowCredentials()); // allow credentials
 
-            app.UseAuthorization();
-            app.UseAuthentication();
+
+            app.UseAuthorization(); 
+
 
             app.UseEndpoints(endpoints =>
             {

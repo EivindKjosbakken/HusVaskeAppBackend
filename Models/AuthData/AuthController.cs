@@ -9,11 +9,12 @@ using HusVaskeIdeBackend.Models.User.InDto;
 namespace HusVaskeIdeBackend.Models.AuthData
 
 {
+
     public class AuthController : ControllerBase
     {
-        private AuthService _authService;
+        private IAuthService _authService;
         private IUserRepository _repository;
-        public AuthController(AuthService authService, IUserRepository repository)
+        public AuthController(IAuthService authService, IUserRepository repository)
         {
             _authService = authService;
             _repository = repository;

@@ -1,24 +1,28 @@
 ﻿using System;
+using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using CryptoHelper;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace HusVaskeIdeBackend.Models.AuthData
 {
-    public class AuthService
+    public class AuthService: IAuthService
     {
-        string jwtSecret;
-        int jwtLifespan;
-        public AuthService(string jwtSecret, int jwtLifespan)
+        public string _jwtSecret;
+        public string _jwtLifespan;
+        public IConfiguration _config;
+        public AuthService(IConfiguration config)
         {
-            this.jwtSecret = jwtSecret;
-            this.jwtLifespan = jwtLifespan;
+            _config = config;
+            _jwtSecret = _config.GetSection("JWT")["JWTSecretKey"];
+            _jwtLifespan = _config.GetSection("JWT")["JWTLifespan"];
         }
         public AuthData GetAuthData(string id,string username)
         {
-            var expirationTime = DateTime.UtcNow.AddSeconds(jwtLifespan);
+            var expirationTime = DateTime.UtcNow.AddSeconds(Convert.ToDouble(_jwtLifespan));
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -29,7 +33,7 @@ namespace HusVaskeIdeBackend.Models.AuthData
                 Expires = expirationTime,
                 // new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256Signature)
                 SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
+                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSecret)),
                     SecurityAlgorithms.HmacSha256Signature
                 )
             };

@@ -1,6 +1,7 @@
 ﻿using HusVaskeIdeBackend.Models;
 using HusVaskeIdeBackend.Models.Group.InDto;
 using HusVaskeIdeBackend.Models.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ namespace HusVaskeIdeBackend.Models.Group
 {
 
     [ApiController]
+    [Authorize]
     public class GroupController : ControllerBase
     {
         private readonly ILogger<GroupController> _logger;

@@ -5,8 +5,6 @@ namespace HusVaskeIdeBackend.Models
 {
     public class TodoItemInDTO
     {
-        [Required]
-        public int ID { get; set; }
 
 
         public string? Title { get; set; }

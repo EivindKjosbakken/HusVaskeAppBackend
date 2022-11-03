@@ -1,4 +1,5 @@
 ﻿using HusVaskeIdeBackend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,9 +10,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace HusVaskeIdeBackend.Models.TodoItem
 {
-
+    [Authorize]
     [ApiController]
     public class TodoItemsController : ControllerBase
     {
