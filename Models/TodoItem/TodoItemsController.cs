@@ -83,7 +83,11 @@ namespace HusVaskeIdeBackend.Models.TodoItem
                 IsFinished = false,
                 TimeCreated = DateTime.UtcNow,
                 GroupID = todoItemDto.GroupID,
-                UserID = todoItemDto.UserID
+                AssigneeUserID = todoItemDto.AssigneeUserID,
+                CreatedByUserID = todoItemDto.CreatedByUserID,
+                IsShowProof = todoItemDto.IsShowProof,
+                Price = todoItemDto.Price,
+
             };
             _repository.AddTodoItem(todoItem);
         }

@@ -19,14 +19,12 @@ namespace HusVaskeIdeBackend.Models.Group
     //[Authorize] //TODO fjerna her, husk å bytte tilbake
     public class GroupController : ControllerBase
     {
-        private readonly ILogger<GroupController> _logger;
 
         private IGroupRepository _repository;
 
         private IUserRepository _userRepository;
-        public GroupController(ILogger<GroupController> logger, IGroupRepository repository, IUserRepository userRepository)
+        public GroupController(IGroupRepository repository, IUserRepository userRepository)
         {
-            _logger = logger;
             _repository = repository;
             _userRepository = userRepository;
         }
@@ -69,6 +67,16 @@ namespace HusVaskeIdeBackend.Models.Group
         }
 
 
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Route("api/groupnamefromid/{groupID}")]
+        public string GetGroupNameFromGroupID(string groupID)
+        {
+            return _repository.GetGroupNameFromGroupID(groupID); 
+
+        }
+        
 
         [HttpPost]
         [Route("api/creategroup")]

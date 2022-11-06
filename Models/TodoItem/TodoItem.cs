@@ -12,7 +12,9 @@ namespace HusVaskeIdeBackend.Models.TodoItem
         public string GroupID { get; set; }
 
         [Required]
-        public string UserID { get; set; }
+        public string AssigneeUserID { get; set; }
+
+        public string CreatedByUserID { get; set; }
 
         public string? Title { get; set; }
 
@@ -26,6 +28,14 @@ namespace HusVaskeIdeBackend.Models.TodoItem
         public DateTime TimeCreated { get; set; }
 
         public DateTime? TimeFinished { get; set; }
+
+        public bool IsShowProof { get; set; }
+
+        public double Price { get; set; } 
+
+        public byte[]? ProofImage  { get; set; }
+
+        
 
 
     }

@@ -43,8 +43,13 @@ namespace HusVaskeIdeBackend
             services.AddControllers();
 
             
+            //LOCAL DB:
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            //AZURE DB:
+            //services.AddDbContext<AppDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
 
 
             services.AddScoped<ITodoRepository, TodoRepository>();

@@ -4,6 +4,7 @@ using HusVaskeIdeBackend.Models.TodoItem;
 using HusVaskeIdeBackend.Models.User;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 
 namespace HusVaskeIdeBackend.Data
 {
@@ -28,7 +29,7 @@ namespace HusVaskeIdeBackend.Data
             modelBuilder.Entity<GroupItem>().HasKey(pc => new { pc.UserID, pc.GroupID }); //have composite PK, want each user to max be once in each group
             // Code to seed data
             modelBuilder.Entity<TodoItem>().HasData(
-                new TodoItem { ID = 1, Title = "Oppvask", Location="Oslo", Assignee="Eivind", UserID="TestUserID", IsFinished=false, GroupID = "TestGroupID", TimeCreated = DateTime.UtcNow});
+                new TodoItem { ID = 1, Title = "Oppvask", Location="Oslo", Assignee="Eivind", AssigneeUserID="TestUserID", IsFinished=false, GroupID = "TestGroupID123", TimeCreated = DateTime.UtcNow, CreatedByUserID = "assndfnq_sa123", IsShowProof=true, Price=5.0, ProofImage = {} });
 
             modelBuilder.Entity<UserItem>().HasData(
                 new UserItem { Id = "assndfnq_sa123", Username = "Kjosbakken", Email = "eivind@gmail.com", Password = "ANAKJFNSOA" });

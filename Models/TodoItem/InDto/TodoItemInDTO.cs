@@ -9,13 +9,22 @@ namespace HusVaskeIdeBackend.Models
         public string GroupID { get; set; }
 
         [Required]
-        public string UserID { get; set; }
+        public string AssigneeUserID { get; set; }
 
         public string? Title { get; set; }
 
         public string? Location { get; set; }
 
-        public string? Assignee { get; set; }
+        [Required]
+        public string Assignee { get; set; }
+
+        [Required]
+        public string CreatedByUserID { get; set; }
+
+        public bool IsShowProof { get; set; }
+
+        public double Price { get; set; }
+
 
 
 
